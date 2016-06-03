@@ -9,13 +9,13 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-onmydesk',
-    version='0.1',
+    version='0.1.0',
     packages=find_packages(exclude=('tests*',)),
     include_package_data=True,
     license='MIT License',
     description='A simple Django app to build reports.',
     long_description=README,
-    url='https://github.com/knowledge/knowledge4life/',
+    url='https://github.com/knowledge4life/django-onmydesk/',
     author='Alisson R. Perez',
     author_email='alisson.perez@knowledge4.life',
     install_requires=[
@@ -25,6 +25,7 @@ setup(
     ],
     keywords=['report', 'reporting', 'django'],
     classifiers=[
+        'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',
@@ -35,5 +36,6 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+        'Topic :: Office/Business :: Financial :: Spreadsheet',
     ],
 )
