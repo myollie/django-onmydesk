@@ -45,12 +45,11 @@ On your project settings, add the following config::
 	'myapp.reports.UsersReport',
     ]
 
-.. note::
-   Each new report must be added to this list. Otherwise, it won't be shown on admin screen.
+Each new report must be added to this list. Otherwise, it won't be shown on admin screen.
 
 Now, access your **OnMyDesk** admin screen and you'll see your **Users report** available on report creation screen.
 
-After you create a report, it'll be status settled up as 'Pending', to process it you must run :ref:`command_process` command. E.g::
+After you create a report, it'll be status settled up as 'Pending', to process it you must run `process` command. E.g::
 
   $ ./manage.py process
   Found 1 reports to process
