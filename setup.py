@@ -23,6 +23,7 @@ setup(
         'filelock==2.0.6',
         'awesome-slugify==1.6.5',
     ],
+    keywords=['report', 'reporting', 'django'],
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
