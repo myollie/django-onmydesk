@@ -4,13 +4,9 @@ User guide
 Installation
 ------------
 
-With pip over ssh::
+With pip::
 
-  pip install -e git+git@github.com:knowledge4life/django-onmydesk.git@master#egg=django-onmydesk
-
-Or with requirements.txt file::
-
-  -e git+git@github.com:knowledge4life/django-onmydesk.git@master#egg=django-onmydesk
+  pip install django-onmydesk
 
 Add 'onmydesk' to your INSTALLED_APPS::
 
@@ -58,7 +54,7 @@ After you create a report, it'll be status settled up as 'Pending', to process i
   Found 1 reports to process
   Processing report #29 - 1 of 1
   Report #29 processed
-  $
+
 
 A little bit more
 ------------------
