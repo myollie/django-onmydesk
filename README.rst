@@ -1,3 +1,7 @@
+.. image:: https://travis-ci.org/knowledge4life/django-onmydesk.svg?branch=develop
+    :target: https://travis-ci.org/knowledge4life/django-onmydesk
+
+
 Django - OnMyDesk
 ===================
 
