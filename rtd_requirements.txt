@@ -1,0 +1,2 @@
+-r requirements.txt
+django==1.9.*
