@@ -1,5 +1,8 @@
 .. image:: https://travis-ci.org/knowledge4life/django-onmydesk.svg?branch=develop
-    :target: https://travis-ci.org/knowledge4life/django-onmydesk
+	   :target: https://travis-ci.org/knowledge4life/django-onmydesk
+.. image:: https://readthedocs.org/projects/django-onmydesk/badge/?version=latest
+	   :target: http://django-onmydesk.readthedocs.io/en/latest/?badge=latest
+	   :alt: Documentation Status
 
 
 Django - OnMyDesk
