@@ -5,6 +5,10 @@
 	   :alt: Documentation Status
 .. image:: https://badge.fury.io/py/django-onmydesk.svg
 	   :target: https://badge.fury.io/py/django-onmydesk
+.. image:: https://img.shields.io/github/issues/alissonperez/django-onmydesk.svg
+	   :target: https://github.com/alissonperez/django-onmydesk/issues
+.. image:: https://img.shields.io/badge/license-MIT-blue.svg
+	   :target: https://raw.githubusercontent.com/alissonperez/django-onmydesk/develop/LICENSE
 
 
 Django - OnMyDesk
