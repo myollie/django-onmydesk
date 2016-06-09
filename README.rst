@@ -3,6 +3,8 @@
 .. image:: https://readthedocs.org/projects/django-onmydesk/badge/?version=latest
 	   :target: http://django-onmydesk.readthedocs.io/en/latest/?badge=latest
 	   :alt: Documentation Status
+.. image:: https://badge.fury.io/py/django-onmydesk.svg
+	   :target: https://badge.fury.io/py/django-onmydesk
 
 
 Django - OnMyDesk
