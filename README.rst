@@ -80,4 +80,4 @@ There are many ways of improving and adding more features, so feel free to colla
 Let us know!
 -------------
 
-We’d be really happy if you sent us links to your projects where you use our component. Just create an issue and let us know if you have any questions or suggestion regarding the library
+We'd be really happy if you sent us links to your projects where you use our component. Just create an issue and let us know if you have any questions or suggestion regarding the library.
