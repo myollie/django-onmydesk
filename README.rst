@@ -68,3 +68,13 @@ After you create a report, it'll be status settled up as 'Pending', to process i
   Found 1 reports to process
   Processing report #29 - 1 of 1
   Report #29 processed
+
+Collaboration
+-------------
+
+There are many ways of improving and adding more features, so feel free to collaborate with ideas, issues and/or pull requests.
+
+Let us know!
+-------------
+
+We’d be really happy if you sent us links to your projects where you use our component. Just create an issue and let us know if you have any questions or suggestion regarding the library
