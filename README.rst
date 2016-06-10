@@ -5,10 +5,13 @@
 	   :alt: Documentation Status
 .. image:: https://badge.fury.io/py/django-onmydesk.svg
 	   :target: https://badge.fury.io/py/django-onmydesk
-.. image:: https://img.shields.io/github/issues/alissonperez/django-onmydesk.svg
-	   :target: https://github.com/alissonperez/django-onmydesk/issues
+.. image:: https://img.shields.io/github/issues/knowledge4life/django-onmydesk.svg
+	   :target: https://github.com/knowledge4life/django-onmydesk/issues
 .. image:: https://img.shields.io/badge/license-MIT-blue.svg
-	   :target: https://raw.githubusercontent.com/alissonperez/django-onmydesk/develop/LICENSE
+	   :target: https://raw.githubusercontent.com/knowledge4life/django-onmydesk/develop/LICENS
+.. image:: https://coveralls.io/repos/github/knowledge4life/django-onmydesk/badge.svg?branch=develop
+	   :target: https://coveralls.io/github/knowledge4life/django-onmydesk?branch=develop
+
 
 
 Django - OnMyDesk
