@@ -3,7 +3,10 @@ import pickle
 from datetime import datetime, date
 from decimal import Decimal, getcontext
 from django.test import TestCase
-from unittest import mock
+try:
+    from unittest import mock
+except ImportError:
+    import mock
 from django import forms
 from django.contrib.auth.models import User
 

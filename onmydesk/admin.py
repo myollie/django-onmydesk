@@ -129,7 +129,7 @@ class ReportAdmin(admin.ModelAdmin):
                        'process_time', results, params]
 
     def save_model(self, request, obj, form, change):
-        super().save_model(request, obj, form, change)
+        super(ReportAdmin, self).save_model(request, obj, form, change)
 
         if request.user and not obj.created_by:
             obj.created_by = request.user
@@ -153,7 +153,7 @@ class ReportAdmin(admin.ModelAdmin):
     report_name.short_description = 'Name'
 
     def get_queryset(self, request):
-        queryset = super().get_queryset(request)
+        queryset = super(ReportAdmin, self).get_queryset(request)
 
         if request.user:
             queryset = queryset.filter(created_by=request.user)
@@ -162,7 +162,7 @@ class ReportAdmin(admin.ModelAdmin):
 
     def get_form(self, request, obj=None, **kwargs):
         self.form = _get_report_admin_form(request) or self.form
-        return super().get_form(request, obj, **kwargs)
+        return super(ReportAdmin, self).get_form(request, obj, **kwargs)
 
     def get_fieldsets(self, request, obj=None):
         fieldset = [
@@ -191,7 +191,7 @@ class ReportAdmin(admin.ModelAdmin):
         return fieldset
 
     def get_readonly_fields(self, request, obj=None):
-        readonly_fields = super().get_readonly_fields(request, obj)
+        readonly_fields = super(ReportAdmin, self).get_readonly_fields(request, obj)
         readonly_fields = list(set(readonly_fields))
 
         if obj and obj.pk:
@@ -278,7 +278,7 @@ class SchedulerAdmin(admin.ModelAdmin):
     report_name.short_description = 'Name'
 
     def save_model(self, request, obj, form, change):
-        super().save_model(request, obj, form, change)
+        super(SchedulerAdmin, self).save_model(request, obj, form, change)
 
         if request.user and not obj.created_by:
             obj.created_by = request.user
@@ -298,7 +298,7 @@ class SchedulerAdmin(admin.ModelAdmin):
         report_class_name = _get_report_class_name(request, obj.report if obj else None)
         form = _get_scheduler_report_admin_form(report_class_name, obj)
         self.form = form or self.form
-        return super().get_form(request, obj, **kwargs)
+        return super(SchedulerAdmin, self).get_form(request, obj, **kwargs)
 
     def get_fieldsets(self, request, obj=None):
         fieldsets = [

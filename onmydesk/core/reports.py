@@ -1,11 +1,12 @@
 from abc import ABCMeta, abstractmethod
-from contextlib import ExitStack
+from contextlib2 import ExitStack
 
-from onmydesk.core import datasets
-from onmydesk.core import outputs
+from onmydesk.core import datasets, outputs
+from onmydesk.utils import with_metaclass
 
 
-class BaseReport(metaclass=ABCMeta):
+@with_metaclass(ABCMeta)
+class BaseReport(object):
     """An abstract representation of a report."""
 
     name = None

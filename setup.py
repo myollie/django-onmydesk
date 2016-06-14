@@ -22,6 +22,7 @@ setup(
         'XlsxWriter==0.8.3',  # Used by XLSXOutput
         'filelock==2.0.6',
         'awesome-slugify==1.6.5',
+        'contextlib2==0.5.3',
     ],
     keywords=['report', 'reporting', 'django'],
     classifiers=[

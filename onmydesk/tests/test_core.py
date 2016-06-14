@@ -1,5 +1,8 @@
 from datetime import date
-from unittest import mock
+try:
+    from unittest import mock
+except ImportError:
+    import mock
 from hashlib import sha224
 from collections import OrderedDict
 from slugify import slugify
@@ -90,7 +93,7 @@ class BaseOutputTestCase(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass()
+        super(BaseOutputTestCase, cls).setUpClass()
 
         def out(self, content):
             pass
@@ -176,7 +179,7 @@ class TSVOutputTestCase(TestCase):
         self.open_result_mocked = mock.MagicMock()
         self.open_mocked = mock.mock_open()
         self.open_mocked.return_value = self.open_result_mocked
-        self.patch('builtins.open', self.open_mocked)
+        self.patch('onmydesk.core.outputs.open', create=True, new=self.open_mocked)
 
         self.writer = mock.MagicMock()
         self.patch('onmydesk.core.outputs.csv.writer', return_value=self.writer)
@@ -196,7 +199,7 @@ class TSVOutputTestCase(TestCase):
         with outputs.TSVOutput() as output:
             output.out(('Alisson', 38))
 
-            *_, extension = output.filepath.split('.')
+            extension = output.filepath.split('.')[-1]
 
             self.assertEqual(extension, 'tsv')
 
@@ -269,7 +272,7 @@ class CSVOutputTestCase(TestCase):
         self.open_result_mocked = mock.MagicMock()
         self.open_mocked = mock.mock_open()
         self.open_mocked.return_value = self.open_result_mocked
-        self.patch('builtins.open', self.open_mocked)
+        self.patch('onmydesk.core.outputs.open', create=True, new=self.open_mocked)
 
         self.writer_mocked = mock.MagicMock()
         self.patch('onmydesk.core.outputs.csv.writer',
@@ -290,7 +293,7 @@ class CSVOutputTestCase(TestCase):
         with outputs.CSVOutput() as output:
             output.out(('Alisson', 38))
 
-            *_, extension = output.filepath.split('.')
+            extension = output.filepath.split('.')[-1]
 
             self.assertEqual(extension, 'csv')
 
@@ -430,7 +433,10 @@ class XLSXOutputTestCase(TestCase):
                 output.out(item)
             output.footer(['Total', 51])
 
-        first_call, *_, last_call = self.worksheet_mocked.write_row.mock_calls
+        first_call, last_call = (
+            self.worksheet_mocked.write_row.mock_calls[0],
+            self.worksheet_mocked.write_row.mock_calls[-1],
+        )
 
         # Header
         self.assertEqual(first_call, mock.call(0, 0, ['Name', 'Age'], header_format))

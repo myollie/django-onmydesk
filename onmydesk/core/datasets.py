@@ -3,8 +3,11 @@ from collections import OrderedDict
 
 from django.db import connection, connections
 
+from onmydesk.utils import with_metaclass
 
-class BaseDataset(metaclass=ABCMeta):
+
+@with_metaclass(ABCMeta)
+class BaseDataset(object):
     """An abstract representation of what must be a Dataset class.
 
     It's possible to use context management with datasets. To do this you must
