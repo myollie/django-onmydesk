@@ -30,6 +30,8 @@ Main features:
 - Easy way to give parameters from users on report creation.
 - Possibility to schedule report creation with e-mail notification.
 
+Full documentation `here <http://django-onmydesk.readthedocs.io/en/latest/?badge=latest>`_.
+
 Installation
 ------------
 
