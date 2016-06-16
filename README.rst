@@ -99,6 +99,6 @@ We'd be really happy if you sent us links to your projects where you use our com
 Licence | License |
 --------------
 
-Please see `LICENSE <https://github.com/knowledge4life/django-onmydesk/LICENSE>`_.
+Please see `LICENSE <https://raw.githubusercontent.com/knowledge4life/django-onmydesk/develop/LICENSE>`_.
 
 .. |License| image:: http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square
