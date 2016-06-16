@@ -1,16 +1,16 @@
 .. image:: https://travis-ci.org/knowledge4life/django-onmydesk.svg?branch=develop
-	   :target: https://travis-ci.org/knowledge4life/django-onmydesk
+       :target: https://travis-ci.org/knowledge4life/django-onmydesk
 .. image:: https://readthedocs.org/projects/django-onmydesk/badge/?version=latest
-	   :target: http://django-onmydesk.readthedocs.io/en/latest/?badge=latest
-	   :alt: Documentation Status
+       :target: http://django-onmydesk.readthedocs.io/en/latest/?badge=latest
+       :alt: Documentation Status
 .. image:: https://badge.fury.io/py/django-onmydesk.svg
-	   :target: https://badge.fury.io/py/django-onmydesk
+       :target: https://badge.fury.io/py/django-onmydesk
 .. image:: https://img.shields.io/github/issues/knowledge4life/django-onmydesk.svg
-	   :target: https://github.com/knowledge4life/django-onmydesk/issues
+       :target: https://github.com/knowledge4life/django-onmydesk/issues
 .. image:: https://img.shields.io/badge/license-MIT-blue.svg
-	   :target: https://raw.githubusercontent.com/knowledge4life/django-onmydesk/develop/LICENSE
+       :target: https://raw.githubusercontent.com/knowledge4life/django-onmydesk/develop/LICENSE
 .. image:: https://coveralls.io/repos/github/knowledge4life/django-onmydesk/badge.svg?branch=master
-	   :target: https://coveralls.io/github/knowledge4life/django-onmydesk?branch=master
+       :target: https://coveralls.io/github/knowledge4life/django-onmydesk?branch=master
 
 
 
@@ -53,12 +53,12 @@ myapp/reports.py::
 
     class UsersReport(reports.SQLReport):
         name = 'Users report'
-	query = 'SELECT * FROM auth_user'
+        query = 'SELECT * FROM auth_user'
 
 On your project settings, add the following config::
 
     ONMYDESK_REPORT_LIST = [
-	'myapp.reports.UsersReport',
+    'myapp.reports.UsersReport',
     ]
 
 Each new report must be added to this list. Otherwise, it won't be shown on admin screen.
@@ -81,3 +81,10 @@ Let us know!
 -------------
 
 We'd be really happy if you sent us links to your projects where you use our component. Just create an issue and let us know if you have any questions or suggestion regarding the library.
+
+Licence | License |
+--------------
+
+Please see `LICENSE <https://github.com/knowledge4life/django-onmydesk/LICENSE>`_.
+
+.. |License| image:: http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square

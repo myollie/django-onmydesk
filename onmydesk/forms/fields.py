@@ -6,7 +6,7 @@ class SchedulerDateField(CharField):
     default_validators = [validators.RegexValidator('^D[\-+][0-9]+$|^D$')]
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(SchedulerDateField, self).__init__(*args, **kwargs)
 
         if not self.help_text:
             self.help_text = ('Use "D" as current date and sum or sub operations '

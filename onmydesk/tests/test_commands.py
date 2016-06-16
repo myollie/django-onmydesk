@@ -1,7 +1,12 @@
 from datetime import date
 from django.test import TestCase
 from io import StringIO
-from unittest import mock
+try:
+    from unittest import mock
+except ImportError:
+    # python2
+    import mock
+    from io import BytesIO as StringIO
 
 from django.core import management
 
@@ -61,7 +66,11 @@ class SchedulerProcesssTestCase(TestCase):
         out = StringIO()
         management.call_command('scheduler_process', stdout=out)
 
-        first_line, *_, last_line, blank_line = out.getvalue().split('\n')
+        first_line, last_line, blank_line = (
+            out.getvalue().split('\n')[0],
+            out.getvalue().split('\n')[-2],
+            out.getvalue().split('\n')[-1]
+        )
 
         first_message = 'Starting scheduler process'
         last_message = 'Scheduler #{} processed'.format(scheduler.id)

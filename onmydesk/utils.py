@@ -18,10 +18,11 @@ def my_import(class_name):
     :returns: Class object
     """
 
-    *packs, class_name = class_name.split('.')
+    packages = class_name.split('.')[:-1]
+    class_name = class_name.split('.')[-1]
 
     try:
-        module = importlib.import_module('.'.join(packs))
+        module = importlib.import_module('.'.join(packages))
         klass = getattr(module, class_name)
         return klass
     except (ImportError, AttributeError) as e:
@@ -53,3 +54,13 @@ def str_to_date(value, reference_date):
     elif n_value[:2] == 'D+':
         days = int(n_value[2:])
         return reference_date + timedelta(days=days)
+
+
+def with_metaclass(mcls):
+    def decorator(cls):
+        body = vars(cls).copy()
+        # clean out class body
+        body.pop('__dict__', None)
+        body.pop('__weakref__', None)
+        return mcls(cls.__name__, cls.__bases__, body)
+    return decorator

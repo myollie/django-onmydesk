@@ -15,7 +15,7 @@ class Command(BaseCommand):
         try:
             self._process_with_lock()
         except Exception as e:
-            self.stdout.write('Error: {}'.format(str(e)))
+            self.stdout.write('Error: {}'.format(e))
 
     def _process_with_lock(self):
         lock = filelock.FileLock(self._get_lock_filepath())

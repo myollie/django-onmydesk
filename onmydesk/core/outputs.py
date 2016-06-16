@@ -8,8 +8,11 @@ from hashlib import sha224
 from uuid import uuid4
 from abc import ABCMeta, abstractmethod
 
+from onmydesk.utils import with_metaclass
 
-class BaseOutput(metaclass=ABCMeta):
+
+@with_metaclass(ABCMeta)
+class BaseOutput(object):
     """An abstract representation of an Output class.
 
     We need to use instances of this classes with context manager. E.g.::
@@ -83,13 +86,14 @@ class BaseOutput(metaclass=ABCMeta):
             tempfile.gettempdir(), filename)
 
 
-class SVOutput(BaseOutput, metaclass=ABCMeta):
+@with_metaclass(ABCMeta)
+class SVOutput(BaseOutput):
     '''Abstract separated values output'''
 
     delimiter = None
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(SVOutput, self).__init__(*args, **kwargs)
         self.writer = None
         self.filepath = None
 
@@ -106,7 +110,7 @@ class SVOutput(BaseOutput, metaclass=ABCMeta):
         return self
 
     def __exit__(self, *args, **kwargs):
-        super().__exit__(*args, **kwargs)
+        super(SVOutput, self).__exit__(*args, **kwargs)
         self.tmpfile.close()
 
 

@@ -36,3 +36,4 @@ log/*
 
 # Editors - Emacs
 *~
+/django_onmydesk.egg-info/*
