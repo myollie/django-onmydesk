@@ -53,7 +53,7 @@ myapp/reports.py::
 
     class UsersReport(reports.SQLReport):
         name = 'Users report'
-    query = 'SELECT * FROM auth_user'
+        query = 'SELECT * FROM auth_user'
 
 On your project settings, add the following config::
 
