@@ -71,7 +71,7 @@ myapp/reports.py::
 On your project settings, add the following config::
 
     ONMYDESK_REPORT_LIST = [
-    'myapp.reports.UsersReport',
+        'myapp.reports.UsersReport',
     ]
 
 Each new report must be added to this list. Otherwise, it won't be shown on admin screen.
@@ -81,12 +81,12 @@ Now, access your **OnMyDesk** admin screen and you'll see your **Users report** 
 
 After you create a report, it'll be status settled up as 'Pending', to process it you must run `process` command. E.g::
 
-  $ ./manage.py process
+  $ python manage.py process
   Found 1 reports to process
   Processing report #29 - 1 of 1
   Report #29 processed
 
-Collaboration
+Contributing
 -------------
 
 There are many ways of improving and adding more features, so feel free to collaborate with ideas, issues and/or pull requests.
@@ -96,7 +96,7 @@ Let us know!
 
 We'd be really happy if you sent us links to your projects where you use our component. Just create an issue and let us know if you have any questions or suggestion regarding the library.
 
-Licence | License |
+Licence |License|
 --------------
 
 Please see `LICENSE <https://raw.githubusercontent.com/knowledge4life/django-onmydesk/develop/LICENSE>`_.
