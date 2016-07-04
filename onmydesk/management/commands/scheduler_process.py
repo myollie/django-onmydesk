@@ -1,3 +1,5 @@
+"""Command used to process schedulers."""
+
 from datetime import date
 import tempfile
 from os import path
@@ -9,9 +11,12 @@ from onmydesk.models import Scheduler
 
 
 class Command(BaseCommand):
+    """Process schedulers."""
+
     help = 'Process schedulers'
 
     def handle(self, *args, **options):
+        """Entrypoint of our command."""
         try:
             self._process_with_lock()
         except Exception as e:

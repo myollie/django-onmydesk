@@ -1,3 +1,5 @@
+"""Command used to process pending reports."""
+
 import tempfile
 from os import path
 
@@ -9,13 +11,17 @@ from onmydesk.models import Report
 
 
 class Command(BaseCommand):
+    """Process pending reports."""
+
     help = 'Process pending reports'
 
     def add_arguments(self, parser):
+        """Add arguments to our command."""
         parser.add_argument('--ids', nargs='+', type=int,
                             help='Report ids to process')
 
     def handle(self, *args, **options):
+        """Entrypoint of our command."""
         try:
             self._process_with_lock(options.get('ids'))
         except Exception as e:
