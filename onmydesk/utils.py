@@ -1,11 +1,13 @@
-"""Module with common utilities to this package"""
+"""Module with common utilities to this package."""
+
 import re
 from datetime import timedelta
 import importlib
 
 
 def my_import(class_name):
-    """
+    """Return a python class given a class name.
+
     Usage example::
 
         Report = my_import('myclass.models.Report')
@@ -17,7 +19,6 @@ def my_import(class_name):
     :param str class_name: Class name
     :returns: Class object
     """
-
     packages = class_name.split('.')[:-1]
     class_name = class_name.split('.')[-1]
 
@@ -32,15 +33,13 @@ def my_import(class_name):
 
 
 def str_to_date(value, reference_date):
-    '''
-    Convert a string like 'D-1' to a "reference_date - timedelta(days=1)"
+    """Convert a string like 'D-1' to a "reference_date - timedelta(days=1)".
 
     :param str value: String like 'D-1', 'D+1', 'D'...
     :param date reference_date: Date to be used as 'D'
     :returns: Result date
     :rtype: date
-    '''
-
+    """
     n_value = value.strip(' ').replace(' ', '').upper()
 
     if not re.match('^D[\-+][0-9]+$|^D$', n_value):
@@ -57,6 +56,14 @@ def str_to_date(value, reference_date):
 
 
 def with_metaclass(mcls):
+    """Decorator used to keep compatibility between python 2 and 3.
+
+    E.g.::
+
+        @with_metaclass(ABCMeta)
+        class MyClass(object):
+            pass
+    """
     def decorator(cls):
         body = vars(cls).copy()
         # clean out class body
