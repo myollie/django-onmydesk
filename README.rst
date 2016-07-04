@@ -91,6 +91,14 @@ Collaboration
 
 There are many ways of improving and adding more features, so feel free to collaborate with ideas, issues and/or pull requests.
 
+Testing
+=======
+
+Just run::
+
+  make test
+
+
 Let us know!
 -------------
 

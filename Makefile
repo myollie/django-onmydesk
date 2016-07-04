@@ -30,7 +30,15 @@ install:
 	pip install dist/*.tar.gz
 
 test-flake:
-	flake8 onmydesk   # Coding style and other things.
+	flake8 onmydesk   # Coding style for all library.
+
+        # Coding style only on tests module (we need to ignore some warnings).
+        #
+        # Ignoring:
+        # D102: Missing docstring in public method
+        # D101: Missing docstring in public class
+        # D104: Missing docstring in public package
+	flake8 onmydesk/tests --exclude= --ignore=D102,D101,D104
 
 test-tox:
 	tox  # Unit tests
