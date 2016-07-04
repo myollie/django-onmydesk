@@ -1,3 +1,5 @@
+"""Testing utils module from library."""
+
 from datetime import date, timedelta
 from django.test import TestCase
 

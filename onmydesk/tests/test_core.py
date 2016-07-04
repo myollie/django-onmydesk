@@ -1,3 +1,5 @@
+"""Testing core entities from library."""
+
 from datetime import date
 try:
     from unittest import mock

@@ -1,3 +1,5 @@
+"""Testing managers from library."""
+
 from datetime import date
 from django.test import TestCase
 
