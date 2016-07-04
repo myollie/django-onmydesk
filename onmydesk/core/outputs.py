@@ -1,3 +1,8 @@
+"""Outputs from library.
+
+Outputs are used to get data and convert it to some representation (like a CSV or XLSX).
+"""
+
 import tempfile
 import csv
 import xlsxwriter
@@ -39,38 +44,45 @@ class BaseOutput(object):
     """Name used to compose output filename"""
 
     def __init__(self):
+        """Class initializer."""
         self.filepath = None
 
     def header(self, content):
-        """Output a header content
-        :param mixed content: Content to be written"""
+        """Return output a header content.
 
+        :param mixed content: Content to be written
+        """
         self.out(content)
 
     @abstractmethod
     def out(self, content):
-        """Output a normal content
-        :param mixed content: Content to be written"""
+        """Output a normal content.
 
+        :param mixed content: Content to be written
+        """
         raise NotImplemented()
 
     def footer(self, content):
-        """Output a footer content
-        :param mixed content: Content to be written"""
+        """Output a footer content.
+
+        :param mixed content: Content to be written
+        """
         self.out(content)
 
     def __enter__(self):
+        """Used by a context manager."""
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
+        """Used by context manager to exit object."""
         pass
 
     def gen_tmpfilename(self):
         """Utility to be used to generate a temporary filename.
 
         :returns: Temporary filepath.
-        :rtype: str"""
-
+        :rtype: str
+        """
         name = ''
         if self.name:
             name = '{}-'.format(
@@ -88,28 +100,35 @@ class BaseOutput(object):
 
 @with_metaclass(ABCMeta)
 class SVOutput(BaseOutput):
-    '''Abstract separated values output'''
+    """Abstract separated values output."""
 
     delimiter = None
 
     def __init__(self, *args, **kwargs):
+        """Class initializer."""
         super(SVOutput, self).__init__(*args, **kwargs)
         self.writer = None
         self.filepath = None
 
     def out(self, content):
+        """Output a content to a separated value line.
+
+        :param mixed content: Content to be written
+        """
         if isinstance(content, dict):
             self.writer.writerow([str(i) for i in content.values()])
         else:
             self.writer.writerow([str(i) for i in content])
 
     def __enter__(self):
+        """Enter from context manager."""
         self.filepath = self.gen_tmpfilename()
         self.tmpfile = open(self.filepath, 'w+')
         self.writer = csv.writer(self.tmpfile, delimiter=self.delimiter)
         return self
 
     def __exit__(self, *args, **kwargs):
+        """Exit from context manager."""
         super(SVOutput, self).__exit__(*args, **kwargs)
         self.tmpfile.close()
 
@@ -137,22 +156,25 @@ class XLSXOutput(BaseOutput):
     """Min width used to set column widths"""
 
     def header(self, content):
-        """Output a header content
-        :param mixed content: Content to be written"""
+        """Output a header content.
 
+        :param mixed content: Content to be written
+        """
         self.has_header = True
         self._write_row(content, self.header_format)
 
     def out(self, content):
-        """Output a normal content
-        :param mixed content: Content to be written"""
+        """Output a normal content.
 
+        :param mixed content: Content to be written
+        """
         self._write_row(content)
 
     def footer(self, content):
-        """Output a footer content
-        :param mixed content: Content to be written"""
+        """Output a footer content.
 
+        :param mixed content: Content to be written
+        """
         self._write_row(content, self.footer_format)
 
     def _write_row(self, content, line_format=None):
@@ -175,6 +197,7 @@ class XLSXOutput(BaseOutput):
                                       self.line_widths.get(i, self.min_width))
 
     def __enter__(self):
+        """Enter from a context manager."""
         self.filepath = self.gen_tmpfilename()
         self.workbook = xlsxwriter.Workbook(self.filepath)
         self.worksheet = self.workbook.add_worksheet()
@@ -191,6 +214,7 @@ class XLSXOutput(BaseOutput):
         return self
 
     def __exit__(self, *args, **kwargs):
+        """Exit from context manager."""
         # Freeze first row if report has header
         if self.has_header:
             self.worksheet.freeze_panes(1, 0)
