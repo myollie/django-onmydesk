@@ -1,16 +1,21 @@
+"""Testing commands from library."""
+
+import sys
 from datetime import date
+from django.core import management
 from django.test import TestCase
-from io import StringIO
+
 try:
     from unittest import mock
 except ImportError:
     # python2
     import mock
-    from io import BytesIO as StringIO
-
-from django.core import management
 
 from onmydesk.models import Report, Scheduler
+
+from io import StringIO
+if sys.version_info < (3, 0):
+    from io import BytesIO as StringIO  # noqa: F811
 
 
 class SchedulerProcesssTestCase(TestCase):
@@ -77,6 +82,7 @@ class SchedulerProcesssTestCase(TestCase):
 
         self.assertEqual(first_line, first_message)
         self.assertEqual(last_line, last_message)
+        self.assertEqual(blank_line, '')
 
     def test_call_must_create_correct_report(self):
         scheduler = Scheduler(report='my_report_class',

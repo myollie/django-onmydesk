@@ -2,10 +2,11 @@ language: python
 python: 3.4
 
 install:
- - pip install tox python-coveralls
+ - pip install python-coveralls
+ - pip install -r requirements.txt
 
 script:
- - tox
+ - make test
 
 after_success:
  - coveralls

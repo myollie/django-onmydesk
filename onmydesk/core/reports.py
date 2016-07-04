@@ -1,3 +1,8 @@
+"""Reports from library.
+
+Base entity from library, used to centralize outputs and datasets.
+"""
+
 from abc import ABCMeta, abstractmethod
 from contextlib2 import ExitStack
 
@@ -28,17 +33,16 @@ class BaseReport(object):
     """Output files filled by :func:`process`."""
 
     def __init__(self, params=None):
-        """
+        """Class initializer.
+
         :param dict params: Params to be used by report (a date range to
         fetch data from database, for example).
         """
-
         self.output_filepaths = []
         self.params = params
 
     def process(self):
-        """Process report and store output filepaths in :attr:`output_filepaths`"""
-
+        """Process report and store output filepaths in :attr:`output_filepaths`."""
         for output in self.outputs:
             output.name = self.name
 
@@ -53,74 +57,73 @@ class BaseReport(object):
                 self.output_filepaths = [o.filepath for o in outputs]
 
     def _write_header(self, outputs):
-        '''Write a header in outputs
+        """Write a header in outputs.
 
-        :param list outputs: A list of output objects.'''
-
+        :param list outputs: A list of output objects.
+        """
         if self.header:
             for output in outputs:
                 output.header(self.header)
 
     def _write_content(self, outputs, items):
-        '''Write a normal content in outputs
+        """Write a normal content in outputs.
 
         :param list outputs: A list of output objects.
-        :param iterable items: Itens (rows) to be written in outputs.'''
-
+        :param iterable items: Itens (rows) to be written in outputs.
+        """
         for row in items:
             row = self.row_cleaner(row)
             for output in outputs:
                 output.out(row)
 
     def _write_footer(self, outputs):
-        '''Write a footer content in outputs
+        """Write a footer content in outputs.
 
-        :param list outputs: A list of output objects.'''
-
+        :param list outputs: A list of output objects.
+        """
         if self.footer:
             for output in outputs:
                 output.footer(self.footer)
 
     def row_cleaner(self, row):
-        """
-        Method used to handle line by line of the report. It's useful to convert some data or do some sanitization.
+        """Method used to handle line by line of the report.
+
+        It's useful to convert some data or do some sanitization.
 
         :param row: Line to be rendered in the report.
         :returns: Line after some processing with it.
         """
-
         return row
 
     @classmethod
     def get_form(cls):
-        """
+        """Return form to be used with this report in admin creation screen.
+
         :returns: Form to be used with this report in admin creation screen.
         """
-
         return cls.form
 
     @property
     @abstractmethod
     def dataset(self):
-        """
+        """Return Dataset to be used by this report.
+
         :returns: Dataset to be used by this report.
         """
-
         raise NotImplemented()
 
     @property
     @abstractmethod
     def outputs(self):
-        """
+        """Return a list of outputs to be used by this report.
+
         :returns: A list of outputs to be used by this report.
         """
-
         raise NotImplemented()
 
 
 class SQLReport(BaseReport):
-    """
-    Report to be used with raw SQL's.
+    """Report to be used with raw SQL's.
 
     E.g.::
 
@@ -147,4 +150,5 @@ class SQLReport(BaseReport):
 
     @property
     def dataset(self):
+        """Return SQLDataset to be used by this report."""
         return datasets.SQLDataset(self.query, self.query_params, self.db_alias)

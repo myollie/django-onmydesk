@@ -1,6 +1,5 @@
-"""
-Required models to handle and store generated reports.
-"""
+"""Required models to handle and store generated reports."""
+
 import base64
 import pickle
 from datetime import date
@@ -23,12 +22,14 @@ ONMYDESK_FILE_HANDLER = getattr(settings, 'ONMYDESK_FILE_HANDLER', None)
 
 
 class ReportNotSavedException(Exception):
+    """Exception used when a report is not saved."""
+
     pass
 
 
 def output_file_handler(filepath):
-    """
-    Returns the output filepath (handled or not by an external function).
+    """Return the output filepath (handled or not by an external function).
+
     This function tries to find a function handler in `settings.ONMYDESK_FILE_HANDLER`. It
     must receive a filepath and returns a new filepath (or url, e.g.) to be stored in the
     report register. It's useful to handle the report results (move to other dirs ou to cloud).
@@ -37,7 +38,6 @@ def output_file_handler(filepath):
     :returns: File path to output (processed or not by a external handler)
     :rtype: str
     """
-
     function_handler = app_settings.ONMYDESK_FILE_HANDLER
 
     if not function_handler:
@@ -48,7 +48,7 @@ def output_file_handler(filepath):
 
 
 class Report(models.Model):
-    """Report model to store generated reports"""
+    """Report model to store generated reports."""
 
     STATUS_PENDING = 'pending'
     STATUS_PROCESSING = 'processing'
@@ -77,6 +77,7 @@ class Report(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
+        """Return string representation of object."""
         if not self.report:
             return 'Report object'
 
@@ -86,28 +87,28 @@ class Report(models.Model):
             ' #{}'.format(self.id) if self.id else '')
 
     def set_params(self, params):
-        """Set params to be used when report is processed
+        """Set params to be used when report is processed.
 
         :param dict params: Dictionary with params to be used to process report.
         """
-
         self.params = base64.b64encode(pickle.dumps(params))
 
     def get_params(self):
-        """Params to be used to process report.
+        """Return param to be used to process report.
 
-        :return: Report params"""
-
+        :return: Report params
+        """
         if self.params:
             return pickle.loads(base64.b64decode(self.params))
 
         return None
 
     def process(self):
-        """Process this report. After processing the outputs will be stored at `results`.
+        """Process this report.
+
+        After processing the outputs will be stored at `results`.
         To access output results is recommended to use :func:`results_as_list`.
         """
-
         if not self.id:
             raise ReportNotSavedException()
 
@@ -139,11 +140,11 @@ class Report(models.Model):
 
     @property
     def result_links(self):
-        """Returns a list with links to access report results.
+        """Return a list with links to access report results.
 
         :returns: List of links to access results
-        :rtype: list"""
-
+        :rtype: list
+        """
         link_handler = app_settings.ONMYDESK_DOWNLOAD_LINK_HANDLER
         if not link_handler:
             return '#'
@@ -153,11 +154,11 @@ class Report(models.Model):
 
     @property
     def results_as_list(self):
-        """Returns a list of output results stored in this model
+        """Return a list of output results stored in this model.
 
         :returns: List of results
-        :rtype: list"""
-
+        :rtype: list
+        """
         if not self.results:
             return []
 
@@ -165,8 +166,11 @@ class Report(models.Model):
 
 
 class Scheduler(models.Model):
-    """Model used to schedule reports to be generated with some
-    periodicity (every monday, from monday to friday, etc.)"""
+    """Model used to schedule reports.
+
+    It'd be used to schedule reports to be generated with some
+    periodicity (every monday, from monday to friday, etc.)
+    """
 
     objects = SchedulerManager()
 
@@ -218,6 +222,7 @@ class Scheduler(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
+        """Return string representation of object."""
         if not self.report:
             return 'Scheduler object'
 
@@ -228,18 +233,17 @@ class Scheduler(models.Model):
             ' #{}'.format(self.id) if self.id else '')
 
     def set_params(self, params):
-        """Set params to be used when report is processed
+        """Set params to be used when report is processed.
 
         :param dict params: Dictionary with params to be used to process report.
         """
-
         self.params = base64.b64encode(pickle.dumps(params))
 
     def get_params(self):
-        """Params to be used to process report.
+        """Return params to be used to process report.
 
-        :return: Report params"""
-
+        :return: Report params
+        """
         if self.params:
             return pickle.loads(base64.b64decode(self.params))
 
@@ -247,11 +251,12 @@ class Scheduler(models.Model):
 
     def process(self, reference_date=None):
         """Process scheduler creating and returing a report.
+
         After processing, this method tries to notify e-mails filled in notify_emails field.
 
         :returns: Report result
-        :rtype: Report"""
-
+        :rtype: Report
+        """
         report = Report(report=self.report,
                         # Avoid other routines to get this report to process
                         status=Report.STATUS_PROCESSING,
@@ -268,13 +273,12 @@ class Scheduler(models.Model):
         return report
 
     def get_processed_params(self, reference_date=None):
-        """Params to be used to process report
+        """Return params to be used to process report.
 
         :param date reference_date: Date to use as reference
         :returns: Dict with params
         :rtype: dict
         """
-
         reference_date = reference_date or date.today()
         report_class = my_import(self.report)
 

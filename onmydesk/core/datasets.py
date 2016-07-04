@@ -1,3 +1,8 @@
+"""Datasets from library.
+
+Datasets are used to get data from any source and return them to reports in a simple way.
+"""
+
 from abc import ABCMeta, abstractmethod
 from collections import OrderedDict
 
@@ -30,10 +35,10 @@ class BaseDataset(object):
 
     @abstractmethod
     def iterate(self, params=None):
-        """It must returns any iterable object.
+        """Return an iterable object.
 
-        :param dict params: Parameters to be used by dataset"""
-
+        :param dict params: Parameters to be used by dataset
+        """
         raise NotImplemented()
 
     def __enter__(self):
@@ -46,8 +51,9 @@ class BaseDataset(object):
 
 
 class SQLDataset(BaseDataset):
-    """
-    A SQLDataset is used to run raw queries into database. E.g.::
+    """A SQLDataset is used to run raw queries into database.
+
+    E.g.::
 
         with SQLDataset('SELECT * FROM users'):
             for row in mydataset.iterate():
@@ -64,28 +70,27 @@ class SQLDataset(BaseDataset):
 
             # RIGHT WAY:
             mydataset = SQLDataset('SELECT * FROM users where age > %d', [18])
-
     """
 
     def __init__(self, query, query_params=[], db_alias=None):
-        """
+        """Init method.
+
         :param str query: Raw sql query.
         :param list query_params: Params to be evaluated with query.
         :param str db_alias: Database alias from django settings. Optional.
         """
-
         self.query = query
         self.query_params = query_params
         self.db_alias = db_alias
         self.cursor = None
 
     def iterate(self, params=None):
-        """
+        """Return an iterable rows (ordered dicts).
+
         :param dict params: Parameters to be used by dataset.
         :returns: Rows from query result.
         :rtype: Iterator with OrderedDict items.
         """
-
         # Used if we are not using context manager
         has_cursor = bool(self.cursor)
         if not has_cursor:
@@ -104,12 +109,12 @@ class SQLDataset(BaseDataset):
             self._close_cursor()
 
     def __enter__(self):
-        """*Enter* from context manager to open a cursor with database"""
+        """*Enter* from context manager to open a cursor with database."""
         self._init_cursor()
         return self
 
     def __exit__(self, type, value, traceback):
-        """*Exit* from context manager to close cursor with database"""
+        """*Exit* from context manager to close cursor with database."""
         self._close_cursor()
 
     def _close_cursor(self):
