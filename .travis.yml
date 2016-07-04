@@ -5,7 +5,7 @@ install:
  - pip install tox python-coveralls
 
 script:
- - tox
+ - make test
 
 after_success:
  - coveralls

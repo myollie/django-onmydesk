@@ -29,8 +29,13 @@ install:
 	@echo ""
 	pip install dist/*.tar.gz
 
-test:
-	tox
+test-flake:
+	flake8 onmydesk   # Coding style and other things.
+
+test-tox:
+	tox  # Unit tests
+
+test: test-tox test-flake
 
 # ========== Docs targets ==========
 
