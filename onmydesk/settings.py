@@ -1,4 +1,4 @@
-'''Local settings with default values'''
+"""Local settings with default values."""
 
 from django.conf import settings
 
