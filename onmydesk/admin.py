@@ -1,3 +1,5 @@
+"""Django admin module."""
+
 import copy
 from collections import OrderedDict
 
@@ -8,6 +10,7 @@ from . import forms as local_forms, models, settings as app_settings, utils
 
 
 def results(obj):
+    """Return report HTML list with report results."""
     if not obj.results_as_list:
         return ''
 
@@ -24,6 +27,7 @@ results.allow_tags = True
 
 
 def params(obj):
+    """Return report params as HTML to be rendered on screen."""
     params = obj.get_params()
     if not params:
         return ''
@@ -42,6 +46,7 @@ params.short_description = 'Parameters'
 
 
 def status(obj):
+    """Return report status as HTML to be rendered on screen."""
     status_classes = {
         models.Report.STATUS_PENDING: '',
         models.Report.STATUS_PROCESSING: 'onm-label-warning',
@@ -57,6 +62,7 @@ status.allow_tags = True
 
 
 def reports_available():
+    """Return a list of report classes available."""
     report_class_list = app_settings.ONMYDESK_REPORT_LIST
 
     report_list = []
@@ -70,6 +76,8 @@ def reports_available():
 
 
 class BaseReportAdminForm(forms.ModelForm):
+    """Form base to be used in admin screen with reports available."""
+
     report = forms.fields.ChoiceField(choices=[('', '')] + reports_available(), initial='')
 
     class Meta:
@@ -78,8 +86,7 @@ class BaseReportAdminForm(forms.ModelForm):
 
 
 def _get_report_admin_form(request):
-    '''Returns admin form to report according with the request'''
-
+    """Return admin form to report according with the request."""
     form = _get_report_form(_get_report_class_name(request))
 
     if form and not issubclass(form, BaseReportAdminForm):
@@ -89,9 +96,7 @@ def _get_report_admin_form(request):
 
 
 def _get_report_form(class_name):
-    '''Given a class_name, it returns the form class from report or None
-    if it does't have it'''
-
+    """Return form class given a class_name or None if it does't have it."""
     if not class_name:
         return None
 
@@ -102,14 +107,15 @@ def _get_report_form(class_name):
 
 
 def _get_report_class_name(request, default=None):
-    '''Given a request, it returns the report class name'''
-
+    """Return report class name given a request."""
     return request.POST.get(
         'report',
         request.GET.get('report', default))
 
 
 class ReportAdmin(admin.ModelAdmin):
+    """Report admin."""
+
     class Media:
         js = ('onmydesk/js/common.js',)
         css = {
@@ -129,6 +135,7 @@ class ReportAdmin(admin.ModelAdmin):
                        'process_time', results, params]
 
     def save_model(self, request, obj, form, change):
+        """Save model."""
         super(ReportAdmin, self).save_model(request, obj, form, change)
 
         if request.user and not obj.created_by:
@@ -145,6 +152,7 @@ class ReportAdmin(admin.ModelAdmin):
         return obj
 
     def report_name(self, obj):
+        """Return report name to be redered on reports list."""
         if not getattr(self, '_reports_available_cache', None):
             self._reports_available_cache = dict(reports_available())
 
@@ -153,6 +161,7 @@ class ReportAdmin(admin.ModelAdmin):
     report_name.short_description = 'Name'
 
     def get_queryset(self, request):
+        """Return queryset to be used on reports list."""
         queryset = super(ReportAdmin, self).get_queryset(request)
 
         if request.user:
@@ -161,10 +170,12 @@ class ReportAdmin(admin.ModelAdmin):
         return queryset
 
     def get_form(self, request, obj=None, **kwargs):
+        """Return form to be used on edition/creation screen."""
         self.form = _get_report_admin_form(request) or self.form
         return super(ReportAdmin, self).get_form(request, obj, **kwargs)
 
     def get_fieldsets(self, request, obj=None):
+        """Return fieldsets to be used on edition/creation screen."""
         fieldset = [
             ('Identification', {
                 'fields': ('report', status)
@@ -191,6 +202,7 @@ class ReportAdmin(admin.ModelAdmin):
         return fieldset
 
     def get_readonly_fields(self, request, obj=None):
+        """Return readonly fields on edition/creation screen."""
         readonly_fields = super(ReportAdmin, self).get_readonly_fields(request, obj)
         readonly_fields = list(set(readonly_fields))
 
@@ -206,8 +218,7 @@ class ReportAdmin(admin.ModelAdmin):
 
 
 def _get_scheduler_report_form(class_name):
-    '''Returns report form to be used by scheduler'''
-
+    """Return report form to be used by scheduler."""
     form = _get_report_form(class_name)
 
     if not form:
@@ -226,8 +237,7 @@ def _get_scheduler_report_form(class_name):
 
 
 def _get_scheduler_report_admin_form(class_name, obj):
-    '''Returns form used by admin screen'''
-
+    """Return form used by admin screen."""
     form = _get_scheduler_report_form(class_name)
 
     # Fill initial field of form params with what is in object to
@@ -245,6 +255,8 @@ def _get_scheduler_report_admin_form(class_name, obj):
 
 
 class SchedulerAdminForm(forms.ModelForm):
+    """Form used on admin screen of scheduler model."""
+
     report = forms.fields.ChoiceField(choices=[('', '')] + reports_available(), initial='')
     notify_emails = forms.fields.CharField(help_text='Separate e-mails by ","',
                                            max_length=1000,
@@ -257,6 +269,8 @@ class SchedulerAdminForm(forms.ModelForm):
 
 
 class SchedulerAdmin(admin.ModelAdmin):
+    """Scheduler admin."""
+
     class Media:
         js = ('onmydesk/js/common.js',)
 
@@ -271,6 +285,7 @@ class SchedulerAdmin(admin.ModelAdmin):
     readonly_fields = ['insert_date', 'update_date', 'created_by']
 
     def report_name(self, obj):
+        """Return report name to be rendered on scheduler list screen."""
         if not getattr(self, '_reports_available_cache', None):
             self._reports_available_cache = dict(reports_available())
 
@@ -278,6 +293,7 @@ class SchedulerAdmin(admin.ModelAdmin):
     report_name.short_description = 'Name'
 
     def save_model(self, request, obj, form, change):
+        """Save a model."""
         super(SchedulerAdmin, self).save_model(request, obj, form, change)
 
         if request.user and not obj.created_by:
@@ -295,12 +311,14 @@ class SchedulerAdmin(admin.ModelAdmin):
         return obj
 
     def get_form(self, request, obj=None, **kwargs):
+        """Return form to be used on edition/creation screen."""
         report_class_name = _get_report_class_name(request, obj.report if obj else None)
         form = _get_scheduler_report_admin_form(report_class_name, obj)
         self.form = form or self.form
         return super(SchedulerAdmin, self).get_form(request, obj, **kwargs)
 
     def get_fieldsets(self, request, obj=None):
+        """Return fieldset used on edition/creation screen."""
         fieldsets = [
             ('Identification', {
                 'fields': ('report', 'periodicity')
