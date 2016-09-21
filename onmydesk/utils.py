@@ -1,7 +1,7 @@
 """Module with common utilities to this package."""
 
 import re
-from datetime import timedelta
+from datetime import datetime, timedelta
 import importlib
 
 
@@ -30,6 +30,10 @@ def my_import(class_name):
         msg = 'Could not import "{}" from {}: {}.'.format(
             class_name, e.__class__.__name__, e)
         raise ImportError(msg)
+
+
+def log_prefix():
+    return '{}: '.format(datetime.now().isoformat(' '))
 
 
 def str_to_date(value, reference_date):
