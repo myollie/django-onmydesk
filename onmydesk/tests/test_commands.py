@@ -80,8 +80,8 @@ class SchedulerProcesssTestCase(TestCase):
         first_message = 'Starting scheduler process'
         last_message = 'Scheduler #{} processed'.format(scheduler.id)
 
-        self.assertEqual(first_line, first_message)
-        self.assertEqual(last_line, last_message)
+        self.assertIn(first_message, first_line)
+        self.assertIn(last_message, last_line)
         self.assertEqual(blank_line, '')
 
     def test_call_must_create_correct_report(self):
