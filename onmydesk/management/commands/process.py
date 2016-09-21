@@ -24,6 +24,8 @@ class Command(BaseCommand):
         """Entrypoint of our command."""
         try:
             self._process_with_lock(options.get('ids'))
+        except filelock.Timeout:
+            self.stdout.write('Could not obtain lock to process reports')
         except Exception as e:
             traceback.print_exc()
             self.stdout.write('Error: {}'.format(str(e)))

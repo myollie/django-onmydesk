@@ -19,6 +19,8 @@ class Command(BaseCommand):
         """Entrypoint of our command."""
         try:
             self._process_with_lock()
+        except filelock.Timeout:
+            self.stdout.write('Could not obtain lock to process scheduler')
         except Exception as e:
             self.stdout.write('Error: {}'.format(e))
 
