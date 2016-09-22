@@ -8,6 +8,7 @@ from django.core.management.base import BaseCommand
 import filelock
 import traceback
 from onmydesk.models import Report
+from onmydesk.utils import log_prefix
 
 
 class Command(BaseCommand):
@@ -24,6 +25,8 @@ class Command(BaseCommand):
         """Entrypoint of our command."""
         try:
             self._process_with_lock(options.get('ids'))
+        except filelock.Timeout:
+            self.stdout.write('Could not obtain lock to process reports')
         except Exception as e:
             traceback.print_exc()
             self.stdout.write('Error: {}'.format(str(e)))
@@ -44,18 +47,18 @@ class Command(BaseCommand):
 
         count = len(items)
 
-        self.stdout.write('Found {} reports to process'.format(count))
+        self.stdout.write(log_prefix() + 'Found {} reports to process'.format(count))
         for i, report in enumerate(items, start=1):
-            self.stdout.write('Processing report #{} - {} of {}'.format(
+            self.stdout.write(log_prefix() + 'Processing report #{} - {} of {}'.format(
                 report.id, i, count))
 
             try:
                 report.process()
                 report.save()
-                self.stdout.write('Report #{} processed'.format(report.id))
+                self.stdout.write(log_prefix() + 'Report #{} processed'.format(report.id))
             except Exception as e:
                 traceback.print_exc()
-                self.stderr.write('Error processing report #{}: {}'.format(
+                self.stderr.write(log_prefix() + 'Error processing report #{}: {}'.format(
                     report.id, str(e)))
 
     def _get_lock_filepath(self):
