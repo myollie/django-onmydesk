@@ -312,8 +312,8 @@ class Scheduler(models.Model):
             report=report,
         )
 
-        text_content = text_template.render(Context(context))
-        html_content = html_template.render(Context(context))
+        text_content = text_template.render(context)
+        html_content = html_template.render(context)
 
         send_mail(
             app_settings.ONMYDESK_SCHEDULER_NOTIFY_SUBJECT.format(
