@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('params', models.BinaryField(verbose_name='Parameters', blank=True, null=True)),
                 ('insert_date', models.DateTimeField(verbose_name='Creation Date', auto_now_add=True)),
                 ('update_date', models.DateTimeField(verbose_name='Update Date', auto_now=True)),
-                ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True)),
+                ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)),
             ],
         ),
     ]

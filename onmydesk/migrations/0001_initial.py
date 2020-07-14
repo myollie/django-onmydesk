@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('results', models.CharField(max_length=255, null=True, blank=True)),
                 ('insert_date', models.DateTimeField(auto_now_add=True, verbose_name='Creation Date')),
                 ('update_date', models.DateTimeField(verbose_name='Update Date', auto_now=True)),
-                ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True)),
+                ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)),
             ],
         ),
     ]
