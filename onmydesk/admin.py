@@ -5,6 +5,7 @@ from collections import OrderedDict
 
 from django import forms
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 
 from . import forms as local_forms, models, settings as app_settings, utils
 
@@ -22,7 +23,7 @@ def results(obj):
 
         links.append(link)
 
-    return '<ul>{}</ul>'.format(''.join(links))
+    return mark_safe('<ul>{}</ul>'.format(''.join(links)))
 results.allow_tags = True
 
 
@@ -40,7 +41,7 @@ def params(obj):
 
         params_list.append(str_param)
 
-    return '<ul>{}</ul>'.format(''.join(params_list))
+    return mark_safe('<ul>{}</ul>'.format(''.join(params_list)))
 params.allow_tags = True
 params.short_description = 'Parameters'
 
@@ -55,9 +56,9 @@ def status(obj):
     }
 
     status_list = dict(models.Report.STATUS_CHOICES)
-    return '<span class="label {}">{}</span>'.format(
+    return mark_safe('<span class="label {}">{}</span>'.format(
         status_classes.get(obj.status, ''),
-        status_list.get(obj.status, ''))
+        status_list.get(obj.status, '')))
 status.allow_tags = True
 
 
@@ -156,7 +157,7 @@ class ReportAdmin(admin.ModelAdmin):
         if not getattr(self, '_reports_available_cache', None):
             self._reports_available_cache = dict(reports_available())
 
-        return self._reports_available_cache.get(obj.report, obj.report)
+        return mark_safe(self._reports_available_cache.get(obj.report, obj.report))
     report_name.allow_tags = True
     report_name.short_description = 'Name'
 
